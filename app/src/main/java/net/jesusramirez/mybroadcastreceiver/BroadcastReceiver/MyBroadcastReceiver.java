@@ -13,18 +13,23 @@ import android.widget.Toast;
 //ESTA CLASE REPRESENTA EL BROADCAST RECEIVER ENCARGADO DE CUANDO ENTRA LA LLAMADA HACER LO QUE QUERAMOS
 public class MyBroadcastReceiver extends BroadcastReceiver {
     private static final String TAG = "MyBroadcastReceiver";
+    //
     @Override
     public void onReceive(Context context, Intent intent) {
         Log.d("BR","ENTRO AL BROADCAST");
         //OBTENER EL ESTADO SI ESTA SONANDO EL CELULAR
         String estado = intent.getExtras().getString(TelephonyManager.EXTRA_STATE);
+        Log.d("ES",estado);
         if(estado.equals(TelephonyManager.EXTRA_STATE_RINGING)){
+            Log.d("SN","Esta sonando");
             //OBTENER EL NUMERO DE QUIEN ESTA LLAMADO
             String numero = intent.getExtras().getString(TelephonyManager.EXTRA_INCOMING_NUMBER);
+            Log.d("N1","Numero que llama " + numero);
             if(numero!=null){
                 //SE USARON LAS PREFERENCIAS PARA ALMACENAR LOS DATOS DEL DESTINATARIO Y EL MENSAJE QUE SE MANDARA
                 SharedPreferences misPreferencias = PreferenceManager.getDefaultSharedPreferences(context);
                 String numGuardado = misPreferencias.getString("NUM", "");
+                Log.d("N2","Numero guardado " + numGuardado);
                 if(numero.equals(numGuardado)){
                     String mensaje = misPreferencias.getString("SMS", "");
                     SmsManager smsManager = SmsManager.getDefault();
